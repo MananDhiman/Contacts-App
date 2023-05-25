@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import manandhiman.contacts.databinding.FragmentAllContactsBinding
 import manandhiman.contacts.model.AppDatabase
 import manandhiman.contacts.model.ContactDao
+import manandhiman.contacts.model.ContactsAdapter
 
 class AllContactsFragment : Fragment() {
     private lateinit var binding: FragmentAllContactsBinding
@@ -35,13 +37,18 @@ class AllContactsFragment : Fragment() {
         val listContact = contactDao.getAll()
 
         if(listContact.isEmpty()){
-            binding.textView3.text = "No Contacts"
+            //show no contacts
             return
         }
 
-        binding.textView3.text = ""
-        for(i in listContact.indices) binding.textView3.text =
-            "${listContact[i].id} + ${listContact[i].name} + ${listContact[i].phoneNumber}"
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        val adapter = ContactsAdapter(listContact)
+        binding.recyclerView.adapter = adapter
+
+
+//        binding.textView3.text = ""
+//        for(i in listContact.indices) binding.textView3.text =
+//            "${listContact[i].id} + ${listContact[i].name} + ${listContact[i].phoneNumber}"
     }
 
 }

@@ -39,16 +39,25 @@ class NewContactFragment : Fragment() {
 
     private fun addNewContact(contactDao: ContactDao) {
 
-        //validateContact()
+        if(formIsEmpty()){
+            return
+        }
         //checkIfContactExists
 
         val name: String = binding.editTextName.text.toString()
-        val phone: Int = binding.editTextPhoneNumber.text.toString().toInt()
+        val phone: String = binding.editTextPhoneNumber.text.toString()
         val email: String = binding.editTextTextEmail.text.toString()
         val houseAddress: String = binding.editTextTextAddress.text.toString()
 
         val newContact = Contact(name, phone, email, houseAddress)
         contactDao.insertContact(newContact)
+
+    }
+
+    private fun formIsEmpty(): Boolean {
+        if(binding.editTextName.text.isEmpty() || binding.editTextPhoneNumber.text.isEmpty()) return true
+
+        return false
 
     }
 }
